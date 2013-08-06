@@ -12,6 +12,8 @@ class ACMMinRates {
 	 * Commission rates based on minimum transaction amounts.
 	 * Here, a minimum order of 1000$ rewards 10%, 2000$ rewards 20% and
 	 * 3000$ rewards 30% (the currency is that of the order).
+	 * 
+	 * The LAST matching rate is applied.
 	 */
 	public static $rates = array(
 		'1000'  => 0.10,
@@ -64,6 +66,7 @@ class ACMMinRates {
 	 */
 	public static function get_referral_amount( $base_amount ) {
 		$result = '0';
+		// iterate over all, the last match gives the result
 		foreach ( self::$rates as $limit => $rate ) {
 			if ( bccomp( $base_amount, $limit ) >= 0 ) {
 				$result = bcmul( $base_amount, $rate, 2 );
